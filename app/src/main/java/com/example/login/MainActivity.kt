@@ -8,8 +8,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Done
-//import androidx.compose.material.icons.filled.Visibility
-//import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -62,7 +62,7 @@ fun LoginScreen() {
                         onClick = { visibility = !visibility }
                     ) {
                         Icon(
-                            imageVector = if (visibility) Icons.Filled.Close else Icons.Filled.Done,
+                            imageVector = if (visibility) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
                             contentDescription = if (visibility) "Ocultar contraseña" else "Mostrar contraseña"
                         )
                     }
