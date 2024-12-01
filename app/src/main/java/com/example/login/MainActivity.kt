@@ -1,17 +1,22 @@
 package com.example.login
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Done
+//import androidx.compose.material.icons.filled.Visibility
+//import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
 
@@ -29,8 +34,7 @@ fun LoginScreen() {
     var username by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var isLoggedIn by rememberSaveable { mutableStateOf(false) }
-    var visivility by rememberSaveable { mutableStateOf(false) }
-
+    var visibility by rememberSaveable { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -52,15 +56,17 @@ fun LoginScreen() {
                 value = password,
                 onValueChange = { password = it },
                 label = { Text("Contraseña") },
-                visualTransformation = PasswordVisualTransformation(),
-                trailingIcon = {IconButton(
-                    onClick = {
-                    if (visivility) false else true
-                })
-                {
-                    Icon(painter = Icons.Filled.Clear )
-                }
-                               },
+                visualTransformation = if (visibility) VisualTransformation.None else PasswordVisualTransformation(),
+                trailingIcon = {
+                    IconButton(
+                        onClick = { visibility = !visibility }
+                    ) {
+                        Icon(
+                            imageVector = if (visibility) Icons.Filled.Close else Icons.Filled.Done,
+                            contentDescription = if (visibility) "Ocultar contraseña" else "Mostrar contraseña"
+                        )
+                    }
+                },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 modifier = Modifier.fillMaxWidth()
             )
