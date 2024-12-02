@@ -79,7 +79,7 @@ fun LoginScreen(viewModel: LoginViewModel = LoginViewModel()) {
                 label = { Text("Usuario") },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(end = 16.dp, start = 16.dp)
 
                 )
             Spacer(modifier = Modifier.height(8.dp))
@@ -101,7 +101,7 @@ fun LoginScreen(viewModel: LoginViewModel = LoginViewModel()) {
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(end = 16.dp, start = 16.dp)
             )
             Text(
                 text = "¿Has olvidado la contraseña?",
