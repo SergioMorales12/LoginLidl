@@ -50,8 +50,7 @@ fun LoginScreen(viewModel: LoginViewModel = LoginViewModel()) {
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+            .fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -78,8 +77,11 @@ fun LoginScreen(viewModel: LoginViewModel = LoginViewModel()) {
                 value = username,
                 onValueChange = { viewModel.onUsernameChanged(it) },
                 label = { Text("Usuario") },
-                modifier = Modifier.fillMaxWidth()
-            )
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+
+                )
             Spacer(modifier = Modifier.height(8.dp))
             OutlinedTextField(
                 value = password,
@@ -97,7 +99,9 @@ fun LoginScreen(viewModel: LoginViewModel = LoginViewModel()) {
                     }
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
             )
             Text(
                 text = "¿Has olvidado la contraseña?",
@@ -108,9 +112,9 @@ fun LoginScreen(viewModel: LoginViewModel = LoginViewModel()) {
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = { viewModel.login() },
-                modifier = Modifier.clip(shape = CircleShape)
-                    .background(Color.Blue)
+                modifier = Modifier
                     .fillMaxWidth()
+                    .padding(end = 16.dp, start = 16.dp)
 
             ) {
                 Text("Iniciar sesión")
@@ -122,7 +126,10 @@ fun LoginScreen(viewModel: LoginViewModel = LoginViewModel()) {
             )
             Text(
                 text = "Esta página está protegida por reCAPTCHA y se aplica la Política de Privacidad y Términos de Servicio de Google",
-                style = MaterialTheme.typography.bodySmall
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
             )
         }
     }
@@ -131,8 +138,7 @@ fun LoginScreen(viewModel: LoginViewModel = LoginViewModel()) {
 fun Header() {
     Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(6.dp),
+            .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -160,7 +166,7 @@ fun Header() {
         }
         Icon(
             imageVector = Icons.Filled.Menu ,
-            modifier = Modifier.size(50.dp),
+            modifier = Modifier.size(50.dp).padding(end = 5.dp),
             contentDescription = "Menu HAMBURGESA"
         )
     }
