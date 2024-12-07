@@ -1,52 +1,71 @@
 package com.example.login
+
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
 
-class LoginViewModel : ViewModel() {
 
-    // Estado para el nombre de usuario
-    private val _username = mutableStateOf("")
-    val username: State<String> get() = _username
+class LoginViewModel {
+    private var _username = mutableStateOf<String>("")
+    val username: State<String> = _username
 
-    // Estado para la contraseña
-    private val _password = mutableStateOf("")
-    val password: State<String> get() = _password
+    private var _confirmUsername = mutableStateOf<String>("")
+    val confirmUsername: State<String> = _confirmUsername
 
-    // Estado para saber si la contraseña es visible
-    private val _passwordVisibility = mutableStateOf(false)
-    val passwordVisibility: State<Boolean> get() = _passwordVisibility
+    private var _password = mutableStateOf<String>("")
+    val password: State<String> = _password
 
-    // Estado para determinar si el usuario ha iniciado sesión
-    private val _isLoggedIn = mutableStateOf(false)
-    val isLoggedIn: State<Boolean> get() = _isLoggedIn
+    private var _confirmPassword = mutableStateOf<String>("")
+    val confirmPassword: State<String> = _confirmPassword
 
-    // Actualizar el nombre de usuario
+    private var _isChecked = mutableStateOf<Boolean>(false)
+    var isChecked: State<Boolean> = _isChecked
+
+    private var _passwordVisibility = mutableStateOf<Boolean>(false)
+    val passwordVisibility: State<Boolean> = _passwordVisibility
+
+    private var _passwordConfirmVisibility = mutableStateOf<Boolean>(false)
+    val passwordConfirmVisibility: State<Boolean> = _passwordConfirmVisibility
+
+    private var _isLoggedIn = mutableStateOf<Boolean>(false)
+    val isLoggedIn: State<Boolean> = _isLoggedIn
+
     fun onUsernameChanged(newUsername: String) {
         _username.value = newUsername
     }
 
-    // Actualizar la contraseña
+    fun onConfirmUsernameChanged(newUsername: String) {
+        _confirmUsername.value = newUsername
+    }
+
     fun onPasswordChanged(newPassword: String) {
         _password.value = newPassword
     }
 
-    // Alternar la visibilidad de la contraseña
+    fun onConfirmPasswordChanged(newPassword: String) {
+        _confirmPassword.value = newPassword
+    }
+
     fun togglePasswordVisibility() {
         _passwordVisibility.value = !_passwordVisibility.value
     }
 
-    // Simular inicio de sesión
+    fun toggleConfirmPasswordVisibility() {
+        _passwordConfirmVisibility.value = !_passwordConfirmVisibility.value
+    }
+
+    fun toggleIsChecked() {
+        _isChecked.value = !_isChecked.value
+    }
+
+
     fun login() {
-        if (_username.value.isNotBlank() && _password.value.isNotBlank()) {
+        // Lógica para iniciar sesión
+        if (_username.value.isNotEmpty() && _password.value.isNotEmpty()) {
             _isLoggedIn.value = true
         }
     }
 
-    // Cerrar sesión
     fun logout() {
         _isLoggedIn.value = false
-        _username.value = ""
-        _password.value = ""
     }
 }
