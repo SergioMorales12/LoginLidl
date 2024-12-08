@@ -9,8 +9,7 @@ import com.example.login.LoginViewModel
 import com.example.login.screens.FirstScreen
 import com.example.login.screens.SecondScreen
 
-
-
+// Se encarga de la navegacion de la app entre las 2 ventanas
 @Composable
 fun AppNavigation(modifier: Modifier,viewModel: LoginViewModel) {
     val navController = rememberNavController()

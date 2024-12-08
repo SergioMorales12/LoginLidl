@@ -1,9 +1,7 @@
 package com.example.login.bodys
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -29,104 +27,65 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.login.LoginViewModel
-import com.example.login.R
 import com.example.login.navigation.AppScreen
 
+// Composable que representa el cuerpo del formulario de inicio de sesión
 @Composable
-fun BodyLogin(viewModel: LoginViewModel, username: String, password: String, passwordVisibility: Boolean,navController: NavController){
-
+fun BodyLogin(
+    viewModel: LoginViewModel,  // ViewModel para gestionar los estados del formulario
+    username: String,  // Nombre de usuario ingresado
+    password: String,  // Contraseña ingresada
+    passwordVisibility: Boolean,  // Estado de visibilidad de la contraseña
+    navController: NavController  // Controlador de navegación para manejar la navegación entre pantallas
+) {
+    // Estructura principal del formulario usando LazyColumn para permitir desplazamiento
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
+            // Descuento visual o título adicional
+            BoxDescuento()
 
-            Box(
-                modifier = Modifier
-                    .background(Color.Blue)
-                    .fillMaxWidth()
-                    .height(50.dp), contentAlignment = Alignment.Center
-            )
+            // Título principal
+            TextoGrande("Identifícate")
 
-            {
-                Row(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        color = Color.White,
-                        modifier = Modifier.padding(start = 10.dp),
-                        text = buildAnnotatedString {
-                            withStyle(style = SpanStyle(fontSize = 15.sp))
-                            {
-                                append("-15%")
-                            }
-                            append(" de descuento extra en JUGUETES con el código ")
-                            withStyle(style = SpanStyle(fontSize = 15.sp)) {
-                                append("JUGUETESDICIENBRE")
-                            }
-                        }
-                    )
-                }
-            }
+            // Etiqueta para el campo de usuario
+            TextoMediano("E-mail")
 
-
-            Text(
-                "Identifícate",
-                style = MaterialTheme.typography.labelLarge,
-                color = Color.Gray,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp),
-                fontSize = 35.sp
-
-            )
-            Text(
-                "E-mail",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 10.dp, top = 20.dp),
-                fontSize = 15.sp
-            )
+            // Campo de texto para ingresar el nombre de usuario
             OutlinedTextField(
-                value = username,
-                onValueChange = { viewModel.onUsernameChanged(it)   },
+                value = username,  // Valor actual del campo
+                onValueChange = { viewModel.onUsernameChanged(it) },  // Acción al cambiar el valor
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(end = 10.dp, start = 10.dp)
-
             )
 
             Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                "Contraseña",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 10.dp, top = 10.dp),
-                fontSize = 15.sp
-            )
+
+            // Etiqueta para el campo de contraseña
+            TextoMediano("Contraseña")
+
+            // Campo de texto para ingresar la contraseña
             OutlinedTextField(
-                value = password,
-                onValueChange = { viewModel.onPasswordChanged(it) },
-                visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
+                value = password,  // Valor actual de la contraseña
+                onValueChange = { viewModel.onPasswordChanged(it) },  // Acción al cambiar la contraseña
+                visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),  // Condición para mostrar u ocultar la contraseña
+                isError = viewModel.confirmLogin(),  // Validación para mostrar error si el login falla
                 trailingIcon = {
+                    // Icono para alternar la visibilidad de la contraseña
                     IconButton(
                         onClick = { viewModel.togglePasswordVisibility() }
                     ) {
@@ -136,63 +95,43 @@ fun BodyLogin(viewModel: LoginViewModel, username: String, password: String, pas
                         )
                     }
                 },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),  // Configuración para el teclado de contraseñas
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(end = 10.dp, start = 10.dp)
             )
-            Text(
-                text = buildAnnotatedString {
-                    append("Esta página está protegida por reCAPTCHA y se aplica la ")
-                    withStyle(
-                        style = SpanStyle(
-                            color = Color.Blue,
-                            fontSize = 15.sp,
-                            textDecoration = TextDecoration.Underline
-                        )
-                    ) {
-                        append("Política de Privacidad")
-                    }
-                    append(" y se aplica la ")
-                    withStyle(
-                        style = SpanStyle(
-                            color = Color.Blue,
-                            fontSize = 15.sp,
-                            textDecoration = TextDecoration.Underline
-                        )
-                    ) {
-                        append("Términos de Servicio ")
-                    }
-                    append("de Google")
-                },
-                style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 10.dp)
-            )
-            Text(
-                text = "¿Has olvidado la contraseña?",
-                color = Color.Gray,
-                textDecoration = TextDecoration.Underline,
-                style = MaterialTheme.typography.labelLarge,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 10.dp, top = 10.dp),
-                fontSize = 15.sp
 
-            )
+            // Mostrar mensaje de error si el login falla
+            if (!viewModel.confirmLogin()) {
+                Text(
+                    text = "La cuenta no está registrada",  // Mensaje de error
+                    color = MaterialTheme.colorScheme.error,  // Color de error
+                    style = MaterialTheme.typography.bodySmall,  // Estilo de texto pequeño
+                    modifier = Modifier
+                        .padding(start = 10.dp, end = 10.dp)
+                )
+            }
+
+            // Texto adicional, como CAPTCHA o recordatorio
+            TextoCaptcha()
+
+            // Texto para recordar la opción de recuperación de contraseña
+            TextoOlvidarContrasenia()
 
             Spacer(modifier = Modifier.height(16.dp))
+
+            // Fila con el botón de inicio de sesión y el enlace a la pantalla de registro
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                // Botón para iniciar sesión
                 Button(
-                    onClick = { viewModel.login() },
+                    onClick = { viewModel.login() },  // Acción de login al presionar el botón
                     modifier = Modifier
                         .padding(start = 10.dp)
                         .width(125.dp)
-                        .background(Color.Blue),
+                        .background(Color.Blue),  // Color de fondo azul
                     colors = ButtonDefaults.buttonColors(
                         Color.Blue
                     ),
@@ -200,55 +139,38 @@ fun BodyLogin(viewModel: LoginViewModel, username: String, password: String, pas
                         5.dp
                     )
                 ) {
-
+                    // Texto dentro del botón
                     Text(
-                        "INICIAR SESIÓN",
-                        fontSize = 15.sp,
-                        color = Color.White,
+                        text = "INICIAR SESIÓN",
+                        fontSize = 15.sp,  // Tamaño de fuente
+                        color = Color.White,  // Color del texto
                         modifier = Modifier.padding(0.dp)
                     )
                 }
 
                 Spacer(modifier = Modifier.width(16.dp))
 
-
-
+                // Enlace para navegar a la pantalla de registro
                 ClickableText(
-                    text = AnnotatedString("¿Aún no tienes cuenta? ¡Regístrate!"),
+                    text = AnnotatedString("¿Aún no tienes cuenta? ¡Regístrate!"),  // Texto del enlace
                     onClick = {
+                        // Navegar a la pantalla de registro
                         navController.navigate(route = AppScreen.SecondScreen.route)
                     },
                     style = TextStyle(
-                        color = Color.Gray,
-                        textDecoration = TextDecoration.Underline,
-                        fontSize = 16.sp
+                        color = Color.Gray,  // Color gris para el texto
+                        textDecoration = TextDecoration.Underline,  // Subrayado para estilo de enlace
+                        fontSize = 16.sp  // Tamaño de fuente
                     )
                 )
-
             }
             Spacer(modifier = Modifier.height(30.dp))
 
-            Text(
-                "De momento no realizamos envíos a Ceuta y Melilla.\n" +
-                        "En los pedidos a Islas Baleares el tiempo de entrega incrementará en 24 horas.En los pedidos a Islas Canarias el tiempo de entrega será entre 5 y 12 días laborables desde la fecha del pedido. Gastos de envío gratuitos a partir de 79 Euros solo aplicable a Península y Baleares.\n" +
-                        "\n" +
-                        "*Todos los precios están indicados en Euros y no incluyen decoración. Precio recomendado o PVPR es el precio al que el fabricante recomienda vender el producto y que ha sido proporcionado por el fabricante, distribuidor u otro vendedor.",
-                modifier = Modifier.padding(10.dp)
-            )
-            Box(modifier = Modifier
-                .fillMaxSize()) {
+            // Sección adicional con información o detalles
+            TextoLargo()
 
-                // Imagen que ocupa toda la caja
-                Image(
-                    painter = painterResource(id = R.drawable.img),
-                    contentDescription = "Footer Image",
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop // Opcion para que la imagen ocupe toda la caja
-                )
-            }
-
+            // Pie de página
+            Footer()
         }
     }
-
-
 }

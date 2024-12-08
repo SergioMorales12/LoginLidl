@@ -1,9 +1,7 @@
 package com.example.login.bodys
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
@@ -29,23 +28,32 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.login.LoginViewModel
-import com.example.login.R
+import com.example.login.navigation.AppScreen
 
+// Composable para crear una nueva cuenta de usuario
 @Composable
-fun BodySignUp(viewModel: LoginViewModel, username: String,confirmUsername:String, password: String,confirmPassword: String, passwordVisibility: Boolean,passwordConfirmVisibility: Boolean, isChecked: Boolean, navController: NavController){
+fun BodySignUp(
+    viewModel: LoginViewModel,  // ViewModel para gestionar los cambios en los campos y el estado de la sesión
+    username: String,  // Nombre de usuario ingresado
+    confirmUsername: String,  // Confirmación del nombre de usuario
+    password: String,  // Contraseña ingresada
+    confirmPassword: String,  // Confirmación de la contraseña
+    passwordVisibility: Boolean,  // Estado para mostrar/ocultar la contraseña
+    passwordConfirmVisibility: Boolean,  // Estado para mostrar/ocultar la confirmación de la contraseña
+    isChecked: Boolean,  // Estado de los checkboxes (aceptación de políticas y suscripción)
+    navController: NavController  // Controlador de navegación para navegar entre pantallas
+) {
+    // Usamos LazyColumn para una lista de elementos, adecuada para pantallas con mucho contenido
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top,
@@ -53,93 +61,61 @@ fun BodySignUp(viewModel: LoginViewModel, username: String,confirmUsername:Strin
     ) {
         item {
 
-            Box(
-                modifier = Modifier
-                    .background(Color.Blue)
-                    .fillMaxWidth()
-                    .height(50.dp), contentAlignment = Alignment.Center
-            )
+            // Caja de descuento (asumida desde otro Composable)
+            BoxDescuento()
 
-            {
-                Row(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        color = Color.White,
-                        modifier = Modifier.padding(start = 10.dp),
-                        text = buildAnnotatedString {
-                            withStyle(style = SpanStyle(fontSize = 15.sp))
-                            {
-                                append("-15%")
-                            }
-                            append(" de descuento extra en JUGUETES con el código ")
-                            withStyle(style = SpanStyle(fontSize = 15.sp)) {
-                                append("JUGUETESDICIENBRE")
-                            }
-                        }
-                    )
-                }
-            }
+            // Título de la pantalla
+            TextoGrande("Crear una cuenta")
 
+            // Etiqueta de email
+            TextoMediano("E-mail")
 
-            Text(
-                "Crear una cuenta",
-                style = MaterialTheme.typography.labelLarge,
-                color = Color.Gray,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp),
-                fontSize = 35.sp
-
-            )
-            Text(
-                "E-mail",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 10.dp, top = 20.dp),
-                fontSize = 15.sp
-            )
+            // Campo de texto para el nombre de usuario
             OutlinedTextField(
                 value = username,
-                onValueChange = { viewModel.onUsernameChanged(it) },
+                onValueChange = { viewModel.onUsernameChanged(it) },  // Actualiza el valor en el ViewModel
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(end = 10.dp, start = 10.dp)
-
             )
 
             Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                "Confirmar E-mail",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 10.dp, top = 20.dp),
-                fontSize = 15.sp
-            )
+
+            // Etiqueta para confirmar el email
+            TextoMediano("Confirmar E-mail")
+
+            // Campo de texto para la confirmación del nombre de usuario
             OutlinedTextField(
                 value = confirmUsername,
                 onValueChange = { viewModel.onConfirmUsernameChanged(it) },
+                isError = viewModel.confirmUsernameError(),  // Muestra error si no coinciden
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(end = 10.dp, start = 10.dp)
-
             )
+
+            // Mensaje de error si los emails no coinciden
+            if (!viewModel.confirmUsernameError()) {
+                Text(
+                    text = "La confirmación del usuario no coincide",
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier
+                        .padding(start = 10.dp, end = 10.dp)
+                )
+            }
 
             Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                "Contraseña",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 10.dp, top = 10.dp),
-                fontSize = 15.sp
-            )
+
+            // Etiqueta para la contraseña
+            TextoMediano("Contraseña")
+
+            // Campo de texto para la contraseña
             OutlinedTextField(
                 value = password,
                 onValueChange = { viewModel.onPasswordChanged(it) },
                 visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
-                trailingIcon = {
+                trailingIcon = {  // Icono para mostrar u ocultar la contraseña
                     IconButton(
                         onClick = { viewModel.togglePasswordVisibility() }
                     ) {
@@ -154,14 +130,13 @@ fun BodySignUp(viewModel: LoginViewModel, username: String,confirmUsername:Strin
                     .fillMaxWidth()
                     .padding(end = 10.dp, start = 10.dp)
             )
+
             Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                "Confirmar Contraseña",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 10.dp, top = 10.dp),
-                fontSize = 15.sp
-            )
+
+            // Etiqueta para la confirmación de la contraseña
+            TextoMediano("Confirmar Contraseña")
+
+            // Campo de texto para confirmar la contraseña
             OutlinedTextField(
                 value = confirmPassword,
                 onValueChange = { viewModel.onConfirmPasswordChanged(it) },
@@ -177,40 +152,27 @@ fun BodySignUp(viewModel: LoginViewModel, username: String,confirmUsername:Strin
                     }
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                isError = viewModel.confirmPasswordError(),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(end = 10.dp, start = 10.dp)
             )
-            Text(
-                text = buildAnnotatedString {
-                    append("Esta página está protegida por reCAPTCHA y se aplica la ")
-                    withStyle(
-                        style = SpanStyle(
-                            color = Color.Blue,
-                            fontSize = 15.sp,
-                            textDecoration = TextDecoration.Underline
-                        )
-                    ) {
-                        append("Política de Privacidad")
-                    }
-                    append(" y se aplica la ")
-                    withStyle(
-                        style = SpanStyle(
-                            color = Color.Blue,
-                            fontSize = 15.sp,
-                            textDecoration = TextDecoration.Underline
-                        )
-                    ) {
-                        append("Términos de Servicio ")
-                    }
-                    append("de Google")
-                },
-                style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 10.dp)
-            )
 
+            // Mensaje de error si las contraseñas no coinciden
+            if (!viewModel.confirmPasswordError()) {
+                Text(
+                    text = "La confirmación de la contraseña no coincide",
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier
+                        .padding(start = 10.dp, end = 10.dp)
+                )
+            }
+
+            // Texto de CAPTCHA o validación adicional (asumido como componente adicional)
+            TextoCaptcha()
+
+            // Checkbox para autorización de tratamiento de datos
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -219,13 +181,15 @@ fun BodySignUp(viewModel: LoginViewModel, username: String,confirmUsername:Strin
             ) {
                 Checkbox(
                     checked = isChecked,
-                    onCheckedChange = { viewModel.toggleIsChecked() }
+                    onCheckedChange = { viewModel.toggleIsChecked() }  // Actualiza el estado del checkbox
                 )
                 Text(
                     text = "Autorizo el tratamiento de mis datos para gestionar la tramitación de mis pedidos.",
                     modifier = Modifier.padding(start = 8.dp)
                 )
             }
+
+            // Checkbox para suscripción a la Newsletter de Lidl
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -243,12 +207,14 @@ fun BodySignUp(viewModel: LoginViewModel, username: String,confirmUsername:Strin
             }
 
             Spacer(modifier = Modifier.height(16.dp))
+
+            // Botón para crear la cuenta
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Button(
-                    onClick = { navController.popBackStack() },
+                    onClick = { viewModel.addSession() },  // Llama a la función para agregar una nueva sesión
                     modifier = Modifier
                         .padding(start = 10.dp)
                         .width(125.dp)
@@ -256,44 +222,39 @@ fun BodySignUp(viewModel: LoginViewModel, username: String,confirmUsername:Strin
                     colors = ButtonDefaults.buttonColors(
                         Color.Blue
                     ),
-                    contentPadding = PaddingValues(
-                        5.dp
-                    )
+                    contentPadding = PaddingValues(5.dp)
                 ) {
-
                     Text(
-                        "CREAR UNA CUENTA",
+                        text = "CREAR CUENTA",
                         fontSize = 15.sp,
                         color = Color.White,
                         modifier = Modifier.padding(0.dp)
                     )
                 }
 
+                Spacer(modifier = Modifier.width(15.dp))
 
-            }
-            Spacer(modifier = Modifier.height(30.dp))
-
-            Text(
-                "De momento no realizamos envíos a Ceuta y Melilla.\n" +
-                        "En los pedidos a Islas Baleares el tiempo de entrega incrementará en 24 horas.En los pedidos a Islas Canarias el tiempo de entrega será entre 5 y 12 días laborables desde la fecha del pedido. Gastos de envío gratuitos a partir de 79 Euros solo aplicable a Península y Baleares.\n" +
-                        "\n" +
-                        "*Todos los precios están indicados en Euros y no incluyen decoración. Precio recomendado o PVPR es el precio al que el fabricante recomienda vender el producto y que ha sido proporcionado por el fabricante, distribuidor u otro vendedor.",
-                modifier = Modifier.padding(10.dp)
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-
-                // Imagen que ocupa toda la caja
-                Image(
-                    painter = painterResource(id = R.drawable.img),
-                    contentDescription = "Footer Image",
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop // Opcion para que la imagen ocupe toda la caja
+                // Texto que permite redirigir a la pantalla de login si ya tiene cuenta
+                ClickableText(
+                    text = AnnotatedString("¿Tienes cuenta? ¡Inicia Sesión YAA!"),
+                    onClick = {
+                        navController.navigate(route = AppScreen.FirstScreen.route)
+                    },
+                    style = TextStyle(
+                        color = Color.Gray,
+                        textDecoration = TextDecoration.Underline,
+                        fontSize = 16.sp
+                    )
                 )
             }
 
+            Spacer(modifier = Modifier.height(30.dp))
+
+            // Texto largo (componente adicional asumido)
+            TextoLargo()
+
+            // Footer de la pantalla (componente adicional asumido)
+            Footer()
         }
     }
 }

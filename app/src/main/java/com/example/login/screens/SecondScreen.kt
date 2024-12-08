@@ -27,17 +27,14 @@ fun SecondScreen(navController: NavController, modifier: Modifier, viewModel: Lo
 
 @Composable
 fun SecondBody(navController: NavController, modifier: Modifier, viewModel: LoginViewModel){
-// Obtenemos el estado desde el ViewModel
+
+    // Obtenemos el estado desde el ViewModel
     val username by rememberSaveable { viewModel.username }
     val password by rememberSaveable { viewModel.password }
     val isChecked by rememberSaveable { viewModel.isChecked }
 
-
     val confirmUsername by rememberSaveable { viewModel.confirmUsername }
     val confirmPassword by rememberSaveable { viewModel.confirmPassword }
-
-
-    val isLoggedIn by rememberSaveable { viewModel.isLoggedIn }
 
     val passwordVisibility by rememberSaveable { viewModel.passwordVisibility }
     val passwordConfirmVisibility by rememberSaveable { viewModel.passwordConfirmVisibility }
@@ -50,38 +47,21 @@ fun SecondBody(navController: NavController, modifier: Modifier, viewModel: Logi
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (isLoggedIn) {
-            // Pantalla de bienvenida después del inicio de sesión
-            Text(
-                text = "Bienvenido, $username!",
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-            Button(
-                onClick = { viewModel.logout() },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Cerrar sesión")
-            }
-        } else {
-            // Pantalla de formulario de inicio de sesión
 
-            Header()
+        // Pantalla de formulario de crear una cuenta
+        Header()
 
-            BodySignUp(
-                viewModel,
-                username,
-                confirmUsername,
-                password,
-                confirmPassword,
-                passwordVisibility,
-                passwordConfirmVisibility,
-                isChecked,
-                navController
-            )
-
-
-        }
+        BodySignUp(
+            viewModel,
+            username,
+            confirmUsername,
+            password,
+            confirmPassword,
+            passwordVisibility,
+            passwordConfirmVisibility,
+            isChecked,
+            navController
+        )
 
     }
 }

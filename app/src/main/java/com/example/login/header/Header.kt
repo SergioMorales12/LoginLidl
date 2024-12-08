@@ -33,13 +33,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.login.R
 
+// Composable que muestra el encabezado de la aplicación
 @Composable
 fun Header() {
+    // Barra superior con logo, menú y opciones de navegación
     Row(
         modifier = Modifier
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        // Logo de la aplicación
         Image(
             painter = painterResource(id = R.drawable.lidl),
             contentDescription = "Logo del Lidl",
@@ -50,12 +53,12 @@ fun Header() {
 
         Spacer(modifier = Modifier.width(6.dp))
 
-        Column(
-        ) {
+        // Sección del menú
+        Column() {
             Icon(
-                imageVector = Icons.Filled.Menu ,
+                imageVector = Icons.Filled.Menu,
                 modifier = Modifier.size(40.dp),
-                contentDescription = "Menu HAMBURGESA"
+                contentDescription = "Menú hamburguesa"
             )
             Text(
                 text = "MENÚ",
@@ -63,11 +66,14 @@ fun Header() {
                 color = MaterialTheme.colorScheme.onBackground
             )
         }
+
+        // Barra de íconos a la derecha con varias opciones
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.End
         ) {
+            // Íconos para diferentes secciones
             Icon(
                 imageVector = Icons.Filled.Newspaper,
                 modifier = Modifier
@@ -104,19 +110,20 @@ fun Header() {
                 contentDescription = "Carrito"
             )
         }
-
-
     }
+
+    // Fila para el campo de búsqueda y botón de búsqueda
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
+        // Campo de búsqueda
         OutlinedTextField(
             value = "Buscar",
             onValueChange = {  },
             modifier = Modifier
                 .padding(end = 10.dp, start = 10.dp)
-
         )
+        // Botón de búsqueda
         Button(
             onClick = {  },
             modifier = Modifier
@@ -126,11 +133,8 @@ fun Header() {
             colors = ButtonDefaults.buttonColors(
                 Color.Blue
             ),
-            contentPadding = PaddingValues(
-                5.dp
-            )
+            contentPadding = PaddingValues(5.dp)
         ) {
-
             Text(
                 "BUSCAR",
                 fontSize = 15.sp,
@@ -139,17 +143,16 @@ fun Header() {
             )
         }
     }
+
+    // Fila con enlaces a diferentes secciones de la aplicación
     Row(
-        horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
+        // Enlaces de texto
         Text(text = "Compra Online", fontSize = 15.sp, modifier = Modifier.padding(10.dp))
         Text(text ="En tu tienda", fontSize = 15.sp, modifier = Modifier.padding(10.dp))
         Text(text ="Lidl Plus", fontSize = 15.sp, modifier = Modifier.padding(10.dp))
         Text(text ="Recetas", fontSize = 15.sp, modifier = Modifier.padding(10.dp))
-
-
     }
-
 }
-
-

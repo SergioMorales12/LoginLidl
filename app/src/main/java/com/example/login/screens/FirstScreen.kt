@@ -3,9 +3,7 @@ package com.example.login.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +16,7 @@ import com.example.login.header.Header
 import com.example.login.LoginViewModel
 import com.example.login.bodys.BodyLoged
 
+
 @Composable
 fun FirstScreen(navController: NavController, modifier: Modifier , viewModel: LoginViewModel){
     FirstBody(navController,modifier, viewModel)
@@ -26,7 +25,6 @@ fun FirstScreen(navController: NavController, modifier: Modifier , viewModel: Lo
 
 @Composable
 fun FirstBody(navController: NavController, modifier: Modifier,viewModel: LoginViewModel){
-
 
         // Obtenemos el estado desde el ViewModel
         val username = viewModel.username.value
@@ -42,6 +40,7 @@ fun FirstBody(navController: NavController, modifier: Modifier,viewModel: LoginV
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Si se a logeado correctamente se cambiara la pantalla
             if (isLoggedIn) {
                 // Pantalla de bienvenida después del inicio de sesión
                 Text(
@@ -64,9 +63,9 @@ fun FirstBody(navController: NavController, modifier: Modifier,viewModel: LoginV
                 )
             }
         }
-    }
+}
 
-//                onClick = { NavController.navigate(route = com.example.login.navigation.AppScreen.route + "/$list") }
+
 
 
 
